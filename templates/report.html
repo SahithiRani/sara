@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Report</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="shortcut icon" type="image/png" href="../static/favicon.png">
+    
+</head>
+
+<style>
+    body{
+        padding: 30px;
+    }
+    canvas{
+    box-shadow: 1px 1px 1px 1px #a8a5a5 !important;
+    border-radius: 2px;
+    border: none !important;
+    width:500px !important;
+    height:270px !important;
+    
+
+}
+
+.low{
+    width: 400px;
+}
+
+.high{
+    width: 400px;
+    padding: 20px;
+}
+
+</style>
+<body>
+        {% for k in dates %}
+
+        <p>
+                <h2 class="btn btn-dark">
+                  {{k}}
+                </h2>
+        </p>
+
+        
+
+              <div class="collaps" id="collapseExample{{k}}">
+                <div class="card card-body">
+                    <h4>India</h4>
+                    <p id="total_Tweet_count_nat{{k}}"></p>
+                    <div class="row">
+                            <canvas id="state_plot{{k}}"></canvas>
+                            <table class="low table">
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Number of Cases</th>
+                                </tr>
+                                <tr>
+                                    <td>Confirmed</td>
+                                    <td>{{int(total_counts[k]['Confirmed'])}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Recovered</td>
+                                    <td>{{int(total_counts[k]['Recovered'])}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Deceased</td>
+                                    <td>{{int(total_counts[k]['Deceased'])}}</td>
+                                </tr>
+                            </table>
+                    </div>
+                        
+                        <!-- <p>{{total_counts[k]}}</p> -->
+                        <hr>
+                        <a class="btn btn-secondary" style="width: 200px;" data-toggle="collapse" href="#collapseExample{{k}}{{k}}" role="button" aria-expanded="false" aria-controls="collapseExample{{k}}{{k}}">
+                                Show States
+                        </a>
+                        <hr>
+
+                        <div class="collapse" id="collapseExample{{k}}{{k}}">
+                                <div class="card card-body">
+
+
+                        {% for num,i in enumerate(states) %}
+                        <p>
+                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseExample{{num}}" role="button" aria-expanded="false" aria-controls="collapseExample{{num}}">
+                                  {{i}}
+                                </a>
+
+                              </p>
+                              <div class="collapse" id="collapseExample{{num}}">
+                                <div class="card card-body">
+                                        <div class="row dat">
+                                            
+                                                <table class="high table">
+                                                    <tr>
+                                                        <th>
+                                                            Emotion
+                                                        </th>
+                                                        <th>
+                                                            Number of tweets
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Anger
+                                                        </td>
+                                                        <td>
+                                                            {% if i in sentiment_date[k].keys()%}
+                                    
+                                                                {{sentiment_date[k][i][0]}}
+                                    
+                                                            {% else %}
+                                    
+                                                                0
+                                    
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                            <td>
+                                                                Disgust
+                                                            </td>
+                                                            <td>
+                                                                {% if i in sentiment_date[k].keys()%}
+                                        
+                                                                    {{sentiment_date[k][i][1]}}
+                                        
+                                                                {% else %}
+                                        
+                                                                    0
+                                        
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>
+                                                                    Joy
+                                                                </td>
+                                                                <td>
+                                                                    {% if i in sentiment_date[k].keys()%}
+                                            
+                                                                        {{sentiment_date[k][i][2]}}
+                                            
+                                                                    {% else %}
+                                            
+                                                                        0
+                                            
+                                                                    {% endif %}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                    <td>
+                                                                        Surprise
+                                                                    </td>
+                                                                    <td>
+                                                                        {% if i in sentiment_date[k].keys()%}
+                                                
+                                                                            {{sentiment_date[k][i][3]}}
+                                                
+                                                                        {% else %}
+                                                
+                                                                            0
+                                                
+                                                                        {% endif %}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>
+                                                                            Fear
+                                                                        </td>
+                                                                        <td>
+                                                                            {% if i in sentiment_date[k].keys()%}
+                                                    
+                                                                                {{sentiment_date[k][i][4]}}
+                                                    
+                                                                            {% else %}
+                                                    
+                                                                                0
+                                                    
+                                                                            {% endif %}
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                            <td>
+                                                                                Sadness
+                                                                            </td>
+                                                                            <td>
+                                                                                {% if i in sentiment_date[k].keys()%}
+                                                        
+                                                                                    {{sentiment_date[k][i][5]}}
+                                                        
+                                                                                {% else %}
+                                                        
+                                                                                    0
+                                                        
+                                                                                {% endif %}
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                                <td>
+                                                                                    Neutral
+                                                                                </td>
+                                                                                <td>
+                                                                                    {% if i in sentiment_date[k].keys()%}
+                                                            
+                                                                                        {{sentiment_date[k][i][6]}}
+                                                            
+                                                                                    {% else %}
+                                                            
+                                                                                        0
+                                                            
+                                                                                    {% endif %}
+                                                                                </td>
+                                                                            </tr>
+                                                    
+                                                </table>
+
+
+                                                <table class="high table">
+                                                        <tr>
+                                                                <th>Status</th>
+                                                                <th>Number of Cases</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Confirmed</td>
+                                                                {% if opp_state_codes[i] in cases_dict[k]['Confirmed'].keys()  %}
+
+                                                                <td>{{int(cases_dict[k]['Confirmed'][opp_state_codes[i]])}}</td>
+
+                                                                {% else %}
+
+                                                                <td> Data Not available </td>
+
+                                                                {% endif %}
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Recovered</td>
+
+                                                                {% if opp_state_codes[i] in cases_dict[k]['Recovered'].keys()  %}
+
+                                                                <td>{{int(cases_dict[k]['Recovered'][opp_state_codes[i]])}}</td>
+
+                                                                {% else %}
+
+                                                                <td> Data Not available </td>
+
+                                                                {% endif %}
+                                                                
+                                                                
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Deceased</td>
+
+                                                                {% if opp_state_codes[i] in cases_dict[k]['Deceased'].keys()  %}
+
+                                                                <td>{{int(cases_dict[k]['Deceased'][opp_state_codes[i]])}}</td>
+
+                                                                {% else %}
+
+                                                                <td> Data Not available </td>
+
+                                                                {% endif %}
+                                                                
+                                                                
+                                                            </tr>
+                                                </table>
+                                                
+                                            </div>
+                                </div>
+                              </div> 
+                              
+                            
+
+
+                              {% endfor %}
+
+                            </div>
+                        </div> 
+
+
+
+                  </div>
+              </div>
+
+              {% endfor %}
+              
+
+
+
+
+
+
+
+
+
+    <!-- name
+        date
+    no of cases
+    no of deaths
+    no of cured
+    % of emotion -->
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script>
+
+var Date_Dict = {{emo_date_count|safe}};
+sentiment_date = {{sentiment_date|safe}}
+var emo_labels = ["Anger","Disgust","Happy","Surprise","Fear","Sad","Neutral"];
+var cases_dict = {{cases_dict|safe}}
+var state_codes = {{state_codes|safe}}
+var opp_state_codes = {{opp_state_codes|safe}}
+
+function create_plot_national(labols, typo, id, date, state){
+
+
+            let myChart = document.getElementById(id).getContext('2d');
+            console.log(sentiment_date)
+            console.log(date)
+            
+
+                
+                dd = Date_Dict[date]
+                
+                
+                if(typeof(dd) == "undefined"){
+                    dd = [0,0,0,0,0,0,0]
+                }
+    
+                        
+                total_tweets = 0
+                var i;
+                for(i=0;i<dd.length;i++){
+                    total_tweets += dd[i]
+                }
+
+                var per_ar = [];
+                for(index=0;index<dd.length-1;index++){
+                    per_ar.push(Math.floor((dd[index]/total_tweets) * 100))
+                }
+                // alert(dd);
+
+
+                document.getElementById("total_Tweet_count_nat"+date).innerHTML = "Total number of Tweets: "+total_tweets
+
+                
+
+            var natChart = new Chart(myChart, {
+                type:typo, //
+                data:{
+                    labels:labols,
+                    backgroundColor:"rgb(0,0,0,0.1)",
+                    datasets:[{
+                        label:date,
+                        backgroundColor: ["#ec1c24", "#b83dba", "#fff200", "#8cfffb", "#0ed145","#3f48cc","#000000"], 
+                        data: per_ar
+                    }]
+                },
+                options:{legend: {
+            display: false,
+    },
+    title: {
+            display: true,
+            fontSize: 30,
+            text: date
+        },
+        
+        scales: {
+            yAxes: [{
+                ticks: {
+                    fontColor: "black",
+                    fontSize: 30,
+                    stepSize: 5,
+                    beginAtZero: true
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    fontColor: "black",
+                    fontSize: 30,
+                    stepSize: 5,
+                    beginAtZero: true
+                }
+            }]
+        }}
+            });
+    
+
+}
+
+{% for k in dates %}
+
+create_plot_national(emo_labels, "bar", "state_plot{{k}}", "{{k}}", "state_plot{{k}}");
+
+{% endfor %}
+
+</script>
+
+</html>
